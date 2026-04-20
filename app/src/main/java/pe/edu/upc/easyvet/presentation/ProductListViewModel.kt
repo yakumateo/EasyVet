@@ -8,9 +8,9 @@ import kotlinx.coroutines.launch
 import pe.edu.upc.easyvet.domain.Product
 import pe.edu.upc.easyvet.domain.ProductRepository
 
-class ProductListViewModel (
-    val productRepository: ProductRepository
-): ViewModel() {
+class ProductListViewModel(
+    private val productRepository: ProductRepository
+) : ViewModel() {
     private var _products = MutableStateFlow<List<Product>>(emptyList())
     val products: StateFlow<List<Product>> get() = _products
 
@@ -18,5 +18,11 @@ class ProductListViewModel (
         viewModelScope.launch {
             _products.value = productRepository.getProducts()
         }
+
     }
+
+    init {
+        getProducts()
+    }
+
 }
