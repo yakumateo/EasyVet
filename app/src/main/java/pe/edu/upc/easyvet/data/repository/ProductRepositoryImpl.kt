@@ -1,21 +1,24 @@
-package pe.edu.upc.easyvet.data
+package pe.edu.upc.easyvet.data.repository
 
-import pe.edu.upc.easyvet.domain.Product
-import pe.edu.upc.easyvet.domain.ProductRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import pe.edu.upc.easyvet.data.remote.ProductService
+import pe.edu.upc.easyvet.domain.model.Product
+import pe.edu.upc.easyvet.domain.repository.ProductRepository
 
 class ProductRepositoryImpl(
     val productService: ProductService
 ) : ProductRepository {
 
-    override suspend fun getProducts(): List<Product> {
+    override suspend fun getProducts(): List<Product> = withContext(Dispatchers.IO) {
         val response = productService.getProducts()
 
         if (response.isSuccessful) {
             response.body()?.let { productsDto ->
-                return productsDto.products.map { productDto ->
+                return@withContext productsDto.products.map { productDto ->
                     Product(
                         id = productDto.id,
-                        title = productDto.title,
+                        name = productDto.title,
                         price = productDto.price,
                         description = productDto.description,
                         image = productDto.image
@@ -23,7 +26,7 @@ class ProductRepositoryImpl(
                 }
             }
         }
-        return emptyList()
+        return@withContext emptyList()
     }
 
 }

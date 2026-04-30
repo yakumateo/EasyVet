@@ -1,7 +1,6 @@
 package pe.edu.upc.easyvet.di
 
-import pe.edu.upc.easyvet.data.ProductService
-import pe.edu.upc.easyvet.presentation.ProductList
+import pe.edu.upc.easyvet.data.remote.ProductService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -16,9 +15,11 @@ object RemoteModule {
             .baseUrl(url)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
     }
 
     fun provideProductService(retrofit: Retrofit = provideRetrofit()): ProductService {
         return retrofit.create(ProductService::class.java)
     }
+
 }
