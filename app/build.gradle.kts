@@ -69,6 +69,11 @@ dependencies {
     // Kotlin serialization
     implementation(libs.kotlin.serialization.json)
 
+    // Room
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
